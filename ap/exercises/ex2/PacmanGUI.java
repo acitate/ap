@@ -14,6 +14,7 @@ public class PacmanGUI extends JFrame implements KeyListener {
     final int LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4;
     Point dotPoint = new Point();
     int score = 0;
+    long start = System.currentTimeMillis();
 
     public PacmanGUI() {
         addKeyListener(this);
@@ -109,6 +110,8 @@ public class PacmanGUI extends JFrame implements KeyListener {
             direction = 2;
         else if (e.getKeyCode() == KeyEvent.VK_P)
             direction = 0;
+        else if (e.getKeyCode() == KeyEvent.VK_Q)
+            System.exit(0);
         else
             direction = -1;
 
