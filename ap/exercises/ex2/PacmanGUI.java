@@ -13,8 +13,8 @@ public class PacmanGUI extends JFrame implements KeyListener {
     static int direction = 1;
     final int LEFT = 1, RIGHT = 2, TOP = 3, BOTTOM = 4;
     Point dotPoint = new Point();
-    int score = 0;
-    long start = System.currentTimeMillis();
+    int score = 0, max_score = 10;
+    long start = System.currentTimeMillis(), max_time = 20000;
 
     public PacmanGUI() {
         addKeyListener(this);
@@ -31,6 +31,7 @@ public class PacmanGUI extends JFrame implements KeyListener {
         drawPacman(g2D);
         drawDotPoint(g2D);
         drawScore(g2D);
+        drawTime(g2D);
         setVisible(true);
     }
 
@@ -51,10 +52,26 @@ public class PacmanGUI extends JFrame implements KeyListener {
         g2d.drawString(s, 25, 50);
     }
 
+    private void drawTime(Graphics2D g2d) {
+        g2d.setColor(Color.BLUE);
+        String time ="Time: " + ((max_time - (System.currentTimeMillis() - start)) / 1000);
+        g2d.drawString(time, 25, 62);
+    }
+
     private void logic() {
+        long finish = System.currentTimeMillis();
+
         if (dotPoint.x == pacmanPoint.x && dotPoint.y == pacmanPoint.y) {
             getNewDotPointLocation();
             score++;
+        }
+        if (finish - start >= max_time) {
+            System.out.println("Time's up! \n game over");
+            System.exit(1);
+        }
+        if (score == max_score){
+            System.out.println("You won!");
+            System.exit(0);
         }
         movePacman();
     }
