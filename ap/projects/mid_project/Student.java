@@ -37,7 +37,7 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return this.first_name + " " +this.last_name + " ; " + this.student_id;
+        return this.first_name + " " +this.last_name + " ; " + this.student_id + " " + membership_date_str;
 
     }
 }

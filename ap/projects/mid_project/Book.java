@@ -1,14 +1,15 @@
 package ap.projects.mid_project;
 
 public class Book {
-    private String name, author, publication_year;
+    private String name, author, publication_year, id;
     private long pages;
 
-    public Book(String name, String author, String publication_year, long pages) {
+    public Book(String name, String author, String publication_year, long pages, String id) {
         this.name = name;
         this.author = author;
         this.publication_year = publication_year;
         this.pages = pages;
+        this.id = id;
     }
 
     public String getName() {

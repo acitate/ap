@@ -16,6 +16,9 @@ public class MenuPrinter {
         System.out.println("\nLogged in as " + logged);
         System.out.print("-----------------------------------\n"+
                          "1. Search book\n"+
+                         "2. Request to borrow a book\n"+
+                         "3. Request to return a book\n"+
+                         "4. List borrowed books\n"+
                          "0. quit\n"+
                          "-----------------------------------\n"+
                          "Choice: ");
@@ -26,6 +29,7 @@ public class MenuPrinter {
         System.out.print("-----------------------------------\n"+
                          "1. Add operator\n"+
                          "2. Show operators\n"+
+                         "3. List offtime books\n"+
                          "0. quit\n"+
                          "-----------------------------------\n"+
                          "Choice: ");
@@ -53,6 +57,7 @@ public class MenuPrinter {
         System.out.print("-----------------------------------\n"+
                          "1. Change perosnal info\n"+
                          "2. Add book\n"+
+                         "3. Confirm request\n"+
                          "0. quit\n"+
                          "-----------------------------------\n"+
                          "Choice: ");

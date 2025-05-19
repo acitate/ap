@@ -1,13 +1,20 @@
 package ap.projects.mid_project;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class FileHandler {
-    final private Gson gson = new Gson();
+    final private Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateGson()).setPrettyPrinting().create();
     private Library library;
 
     private File file;
@@ -48,6 +55,29 @@ public class FileHandler {
             writer.flush();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+}
+
+class LocalDateGson extends TypeAdapter<LocalDate> {
+    private static DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+    @Override
+    public void write(JsonWriter out, LocalDate value) throws IOException {
+        if (value == null) {
+            out.nullValue();
+        } else {
+            out.value(value.format(formatter));
+        }
+    }
+
+    @Override
+    public LocalDate read(JsonReader in) throws IOException {
+        if (in.peek() == null || in.peek().name().equals("NULL")) {
+            in.nextNull();
+            return null;
+        } else {
+            return LocalDate.parse(in.nextString(), formatter);
         }
     }
 }
