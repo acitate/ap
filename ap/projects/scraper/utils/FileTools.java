@@ -1,0 +1,30 @@
+package ap.projects.scraper.utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FileTools {
+
+    public static List<String> getTextFileLines(String filePath){
+        try {
+            return Files.lines(Paths.get(filePath))
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+//            throw new RuntimeException(e);
+            return null;
+        }
+    }
+
+    public static String getName(String path) {
+        File file = new File(path);
+        return file.getName();
+    }
+
+    public static void main(String[] args) {
+//        System.out.println( getName("/home/parsa/Projects/java/ap_eyd/fetched_html/samp.znu.ac.ir^\n"));
+    }
+}
