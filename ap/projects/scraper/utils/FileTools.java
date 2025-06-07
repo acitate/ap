@@ -25,6 +25,5 @@ public class FileTools {
     }
 
     public static void main(String[] args) {
-//        System.out.println( getName("/home/parsa/Projects/java/ap_eyd/fetched_html/samp.znu.ac.ir^\n"));
     }
 }
