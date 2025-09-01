@@ -43,6 +43,10 @@ public class LibrarySystem {
         System.out.println("Not implemented.");
     }
 
+    public int getStudentCount() {
+        return this.studentManager.getStudentCount();
+    }
+
     public void start() {
         menuHandler.displayMainMenu();
     }

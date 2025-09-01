@@ -33,4 +33,9 @@ public class StudentManager {
     private boolean isUsernameTaken(String username) {
         return students.stream().anyMatch(s -> s.getUsername().equals(username));
     }
+
+    public int getStudentCount() {
+        return students.size();
+    }
+
 }

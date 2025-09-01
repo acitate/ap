@@ -135,7 +135,31 @@ public class MenuHandler {
     }
 
     private void displayQuestMenu() {
-        System.out.println("Not implemented.");
+        boolean isRunning = true;
+        while (isRunning == true) {
+            System.out.println("\n=== Guest ===");
+            System.out.println("1. No. registered students");
+            System.out.println("2. Search book by name");
+            System.out.println("3. Simple statistics");
+            System.out.println("4. Back");
+
+            int choice = getInt("Please enter your choice: ", 1, 6);
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\n " + librarySystem.getStudentCount() + "students have registered thus far.");
+                    break;
+                case 2:
+                    System.out.println("Placeholder");
+                    break;
+                case 3:
+                    System.out.println("Placeholder");
+                    break;
+                case 4:
+                    isRunning = false;
+                    return;
+            }
+        }
     }
 
     private void displayStudentMenu() {
