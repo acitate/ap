@@ -23,6 +23,13 @@ public class StudentManager {
         System.out.println("Student registration completed successfully.");
     }
 
+    public Student authenticateStudent(String username, String password) {
+        return students.stream()
+                .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
+    }
+
     private boolean isUsernameTaken(String username) {
         return students.stream().anyMatch(s -> s.getUsername().equals(username));
     }

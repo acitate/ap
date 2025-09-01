@@ -2,6 +2,7 @@ package ap.projects.finalproject;
 
 import ap.projects.finalproject.manager.StudentManager;
 import ap.projects.finalproject.menu.MenuHandler;
+import ap.projects.finalproject.model.Student;
 import ap.projects.finalproject.util.JsonFileHandler;
 import java.io.File;
 
@@ -20,6 +21,26 @@ public class LibrarySystem {
     public void registerStudent(String name, String studentId, String username, String password) {
         studentManager.registerStudent(name, studentId, username, password);
         fileHandler.saveStudents(studentManager, Students);
+    }
+
+    public Student authenticateStudent(String username, String password) {
+        return studentManager.authenticateStudent(username, password);
+    }
+
+    public void editStudentInformation(Student student) {
+        System.out.println("Not implemented.");
+    }
+
+    public void borrowBook(Student student) {
+        System.out.println("Not implemented.");
+    }
+
+    public void returnBook(Student student) {
+        System.out.println("Not implemented.");
+    }
+
+    public void displayAvailableBooks() {
+        System.out.println("Not implemented.");
     }
 
     public void start() {
