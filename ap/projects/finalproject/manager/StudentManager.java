@@ -13,6 +13,7 @@ public class StudentManager {
     }
 
     public void registerStudent(String name, String studentId, String username, String password) {
+        // Logic for registering a new student. Checks the student list to see if the provided username is already in use.
         if (isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
@@ -24,6 +25,7 @@ public class StudentManager {
     }
 
     public Student authenticateStudent(String username, String password) {
+        // Logic for student login. Checks if the provided info match any student in the list.
         return students.stream()
                 .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
                 .findFirst()

@@ -4,6 +4,7 @@ import ap.projects.finalproject.manager.LibrarianManager;
 import ap.projects.finalproject.manager.StudentManager;
 import ap.projects.finalproject.menu.MenuHandler;
 import ap.projects.finalproject.model.Director;
+import ap.projects.finalproject.model.Person;
 import ap.projects.finalproject.model.Student;
 import ap.projects.finalproject.util.JsonFileHandler;
 import java.io.File;
@@ -79,5 +80,9 @@ public class LibrarySystem {
     public static void main(String[] args) {
         LibrarySystem system = new LibrarySystem();
         system.start();
+    }
+
+    public Person authenticateLibrarian(String username, String password) {
+        return librarianManager.authenticateLibrarian(username, password);
     }
 }

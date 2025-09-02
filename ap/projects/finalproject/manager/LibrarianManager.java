@@ -1,6 +1,7 @@
 package ap.projects.finalproject.manager;
 
 import ap.projects.finalproject.model.Librarian;
+import ap.projects.finalproject.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public class LibrarianManager {
     }
 
     public void addLibrarian(String name, String username, String password) {
+        // Logic for adding a new librarian. Checks if the provided username already exists.
         if (isUsernameTaken(username)) {
             System.out.println("This username already exists. Please choose a different username.");
             return;
@@ -23,7 +25,17 @@ public class LibrarianManager {
         }
     }
 
+    public Librarian authenticateLibrarian(String username, String password) {
+        // Logic for librarian login. Checks if the provided info match any librarian in the list.
+        return librarians.stream()
+                .filter(s -> s.getUsername().equals(username) && s.getPassword().equals(password))
+                .findFirst()
+                .orElse(null);
+    }
+
     private boolean isUsernameTaken(String username) {
         return librarians.stream().anyMatch(s -> s.getUsername().equals(username));
     }
+
+
 }

@@ -11,17 +11,16 @@ import java.util.Scanner;
 import static ap.projects.finalproject.util.InputHandler.*;
 
 public class MenuHandler {
-//    private Scanner scanner;
     private LibrarySystem librarySystem;
     private Person currentUser;
 
     public MenuHandler(LibrarySystem librarySystem) {
-//        this.scanner = new Scanner(System.in);
         this.librarySystem = librarySystem;
         this.currentUser = null;
     }
 
     public void displayMainMenu() {
+        // The very first menu that is displayed when the app is started.
         while (true) {
             System.out.println("\n=== University Library Management System ===");
             System.out.println("1. Quest User");
@@ -30,7 +29,7 @@ public class MenuHandler {
             System.out.println("4. Director");
             System.out.println("5. Exit");
 
-            int choice = getInt("Please enter your choice: ", 1, 6);
+            int choice = getInt("Please enter your choice: ", 1, 5);
 
             switch (choice) {
                 case 1:
@@ -40,7 +39,7 @@ public class MenuHandler {
                     displayStudentMenu();
                     break;
                 case 3:
-                    displayLibrarianMenu();
+                    handleLibrarianLogin();
                     break;
                 case 4:
                     handleDirectorLogin();
@@ -55,11 +54,29 @@ public class MenuHandler {
         }
     }
 
+    private void handleLibrarianLogin() {
+        // Log into the app as a Librarian, Requires the username and password of an existing librarian.
+        System.out.println("\n--- Librarian Login ---");
+
+        String username = getString("Enter librarian's username: ");
+        String password = getString("Enter password: ");
+
+        currentUser = librarySystem.authenticateLibrarian(username, password);
+
+        if (currentUser != null) {
+            System.out.println("Login successful! Welcome, " + currentUser.getName());
+            displayLibrarianMenu();
+        } else {
+            System.out.println("Invalid username or password. Please try again.");
+        }
+    }
+
     private void displayStudentCount() {
         System.out.printf("Not implemented.");
     }
 
     private void handleStudentRegistration() {
+        // Register and log in as a new student.
         System.out.println("\n--- New Student Registration ---");
 
         String name = getString("Student name: ");
@@ -71,6 +88,7 @@ public class MenuHandler {
     }
 
     private void handleStudentLogin() {
+        // Log into the app as a student, requires username and password of an existing student.
         System.out.println("\n--- Student Login ---");
 
         String username = getString("Username: ");
@@ -87,6 +105,7 @@ public class MenuHandler {
     }
 
     private void displayLoggedInStudentMenu() {
+        // The menu of actions available for a student.
         while (currentUser != null) {
             System.out.println("\n=== Student Dashboard ===");
             System.out.println("1. View My Information");
@@ -133,7 +152,7 @@ public class MenuHandler {
             System.out.println("3. Simple statistics");
             System.out.println("4. Back");
 
-            int choice = getInt("Please enter your choice: ", 1, 6);
+            int choice = getInt("Please enter your choice: ", 1, 4);
 
             switch (choice) {
                 case 1:
@@ -152,6 +171,7 @@ public class MenuHandler {
     }
 
     private void displayStudentMenu() {
+        // Decide to login as an existing student or register a new student.
         System.out.println("\n=== Student ===");
         System.out.println("1. Register New Student");
         System.out.println("2. Login");
@@ -172,10 +192,39 @@ public class MenuHandler {
     }
 
     private void displayLibrarianMenu() {
-        System.out.println("Not implemented.");
+        // Actions available to a Librarian.
+        while (currentUser != null) {
+            System.out.println("\n=== Librarian Dashboard ===");
+            System.out.println("1. Change password");
+            System.out.println("2. Add book");
+            System.out.println("3. Edit book");
+            System.out.println("4. Requests");
+            System.out.println("5. Student history");
+            System.out.println("6. Ban student");
+            System.out.println("7. Logout");
+
+            int choice = getInt("Please enter your choice: ", 1, 7);
+
+            switch (choice) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                    System.out.println("Placeholder");
+                    break;
+                case 7:
+                    currentUser = null;
+                    return;
+                default:
+                    System.out.println("Invalid input!");
+            }
+        }
     }
 
     private void displayDirectorMenu() {
+        // The manager of the library's menu.
         while (currentUser != null) {
             System.out.println("\n=== Director ===");
             System.out.println("1. Add Librarian");
@@ -184,7 +233,7 @@ public class MenuHandler {
             System.out.println("4. Students Statistics");
             System.out.println("5. Logout");
 
-            int choice = getInt("Please enter your choice: ");
+            int choice = getInt("Please enter your choice: ", 1, 5);
 
             switch (choice) {
                 case 1:
@@ -209,6 +258,7 @@ public class MenuHandler {
     }
 
     private void handleLibrarianAddition() {
+        // Handles the addition of a new librarian by the manager.
         System.out.println("\n---- New Librarian ---");
         String name = getString("Enter new librarian's name: ");
         new Scanner(System.in).next();
