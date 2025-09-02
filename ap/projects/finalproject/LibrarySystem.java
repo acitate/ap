@@ -1,26 +1,42 @@
 package ap.projects.finalproject;
 
+import ap.projects.finalproject.manager.LibrarianManager;
 import ap.projects.finalproject.manager.StudentManager;
 import ap.projects.finalproject.menu.MenuHandler;
+import ap.projects.finalproject.model.Director;
 import ap.projects.finalproject.model.Student;
 import ap.projects.finalproject.util.JsonFileHandler;
 import java.io.File;
 
 // LibrarySystem.java
 public class LibrarySystem {
+    private static Director director;
     private StudentManager studentManager;
+    private LibrarianManager librarianManager;
     private MenuHandler menuHandler;
     private JsonFileHandler fileHandler = new JsonFileHandler();
-    File Students = new File("Students.json");
+    File students_file = new File("Students.json");
+    File librarians_file = new File("Librarians.json");
 
     public LibrarySystem() {
-        this.studentManager = (fileHandler.loadStudents(Students) == null)? new StudentManager() : fileHandler.loadStudents(Students);
+        this.director = new Director("Amir Sultani", "1234");
+
+        this.studentManager = (StudentManager) fileHandler.loadFromFile(students_file, StudentManager.class);
+        this.studentManager = (studentManager == null)? new StudentManager() : studentManager;
+
+        this.librarianManager = (LibrarianManager) fileHandler.loadFromFile(librarians_file, LibrarianManager.class);
+        this.librarianManager = (librarianManager == null)? new LibrarianManager() : librarianManager;
+
         this.menuHandler = new MenuHandler(this);
+    }
+
+    public static Director getDirector() {
+        return director;
     }
 
     public void registerStudent(String name, String studentId, String username, String password) {
         studentManager.registerStudent(name, studentId, username, password);
-        fileHandler.saveStudents(studentManager, Students);
+        fileHandler.saveToFile(studentManager, students_file);
     }
 
     public Student authenticateStudent(String username, String password) {
@@ -45,6 +61,15 @@ public class LibrarySystem {
 
     public int getStudentCount() {
         return this.studentManager.getStudentCount();
+    }
+
+    public Director authenticateDirector(String password) {
+        return director.authenticate(password);
+    }
+
+    public void addLibrarian(String name, String username, String password) {
+        librarianManager.addLibrarian(name, username, password);
+        fileHandler.saveToFile(librarianManager, librarians_file);
     }
 
     public void start() {

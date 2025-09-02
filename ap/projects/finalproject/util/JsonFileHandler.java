@@ -1,6 +1,5 @@
 package ap.projects.finalproject.util;
 
-import ap.projects.finalproject.manager.StudentManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -16,14 +15,14 @@ import java.time.format.DateTimeFormatter;
 public class JsonFileHandler {
     final private Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateGson()).setPrettyPrinting().create();
 
-    public StudentManager loadStudents(File file) {
-        // tries to load a json file and convert it to a StudentManager object, returning null if the file does not exist.
+    public Object loadFromFile(File file, Class managerClass) {
+        // tries to load a json file and convert it to a Manager object, returning null if the file does not exist.
 
-        StudentManager students = new StudentManager();
+        Object manager = null;
         try {
             if (file.exists()) {
                 FileReader reader = new FileReader(file);
-                students = gson.fromJson(reader, StudentManager.class);
+                manager = gson.fromJson(reader, managerClass);
 
             } else {
                 System.out.println("File does not exist!");
@@ -32,11 +31,11 @@ public class JsonFileHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return students;
+        return manager;
     }
 
-    public void saveStudents(StudentManager manager, File file) {
-        // converts a StudentManager object and saves it to a file.
+    public void saveToFile(Object manager, File file) {
+        // converts a Manager object to json and saves it to a file.
         try {
             FileWriter writer = new FileWriter(file);
             gson.toJson(manager, writer);
