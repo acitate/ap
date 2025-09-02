@@ -1,27 +1,15 @@
 package ap.projects.finalproject.model;
 
-public class Student extends Person {
+public class Student extends User {
     private String studentId;
-    private String username;
-    private String password;
 
-    public Student(String name, String studentId, String username, String password) {
-        super(name);
+    public Student(String name, String username, String password, String studentId) {
+        super(name, username, password);
         this.studentId = studentId;
-        this.username = username;
-        this.password = password;
     }
 
     public String getStudentId() {
         return studentId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     @Override

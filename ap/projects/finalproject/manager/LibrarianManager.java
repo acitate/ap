@@ -33,6 +33,12 @@ public class LibrarianManager {
                 .orElse(null);
     }
 
+    public void update(Librarian old_librarian, Librarian new_librarian) {
+//        librarians.indexOf(old_librarian);
+        librarians.remove(old_librarian);
+        librarians.add(new_librarian);
+    }
+
     private boolean isUsernameTaken(String username) {
         return librarians.stream().anyMatch(s -> s.getUsername().equals(username));
     }

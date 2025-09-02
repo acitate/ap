@@ -1,20 +1,29 @@
 package ap.projects.finalproject.model;
 
-public class Librarian extends Person {
-    private String username;
-    private String password;
+import static ap.projects.finalproject.util.InputHandler.getString;
+
+public class Librarian extends User {
 
     public Librarian(String name, String username, String password) {
-        super(name);
-        this.username = username;
-        this.password = password;
+        super(name, username, password);
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public void changePassword() {
+        String current_pass = getString("Enter your current password: ");
 
-    public String getPassword() {
-        return password;
+        if (this.password.equals(current_pass)) {
+            String new_pass = getString("Enter new password: ");
+
+            if (this.password.equals(new_pass)) {
+                System.out.println("This is already your password!");
+                return;
+            } else {
+                setPassword(new_pass);
+                return;
+            }
+        } else {
+            System.out.println("Wrong password!");
+            return;
+        }
     }
 }

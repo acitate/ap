@@ -4,8 +4,9 @@ import ap.projects.finalproject.manager.LibrarianManager;
 import ap.projects.finalproject.manager.StudentManager;
 import ap.projects.finalproject.menu.MenuHandler;
 import ap.projects.finalproject.model.Director;
-import ap.projects.finalproject.model.Person;
+import ap.projects.finalproject.model.Librarian;
 import ap.projects.finalproject.model.Student;
+import ap.projects.finalproject.model.User;
 import ap.projects.finalproject.util.JsonFileHandler;
 import java.io.File;
 
@@ -37,7 +38,7 @@ public class LibrarySystem {
 
     public void registerStudent(String name, String studentId, String username, String password) {
         studentManager.registerStudent(name, studentId, username, password);
-        fileHandler.saveToFile(studentManager, students_file);
+        save();
     }
 
     public Student authenticateStudent(String username, String password) {
@@ -70,11 +71,7 @@ public class LibrarySystem {
 
     public void addLibrarian(String name, String username, String password) {
         librarianManager.addLibrarian(name, username, password);
-        fileHandler.saveToFile(librarianManager, librarians_file);
-    }
-
-    public void start() {
-        menuHandler.displayMainMenu();
+        save();
     }
 
     public static void main(String[] args) {
@@ -82,7 +79,20 @@ public class LibrarySystem {
         system.start();
     }
 
-    public Person authenticateLibrarian(String username, String password) {
+    public User authenticateLibrarian(String username, String password) {
         return librarianManager.authenticateLibrarian(username, password);
+    }
+
+    public void start() {
+        menuHandler.displayMainMenu();
+    }
+
+    public void save() {
+        fileHandler.saveToFile(studentManager, students_file);
+        fileHandler.saveToFile(librarianManager, librarians_file);
+    }
+
+    public void updateLibrarian(User old_librarian, User new_librarian) {
+        librarianManager.update((Librarian) old_librarian, (Librarian) new_librarian);
     }
 }

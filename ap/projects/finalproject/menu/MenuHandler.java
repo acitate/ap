@@ -3,7 +3,7 @@ package ap.projects.finalproject.menu;
 
 // MenuHandler.java
 import ap.projects.finalproject.LibrarySystem;
-import ap.projects.finalproject.model.Person;
+import ap.projects.finalproject.model.User;
 import ap.projects.finalproject.model.Student;
 
 import java.util.Scanner;
@@ -12,7 +12,7 @@ import static ap.projects.finalproject.util.InputHandler.*;
 
 public class MenuHandler {
     private LibrarySystem librarySystem;
-    private Person currentUser;
+    private User currentUser;
 
     public MenuHandler(LibrarySystem librarySystem) {
         this.librarySystem = librarySystem;
@@ -45,6 +45,7 @@ public class MenuHandler {
                     handleDirectorLogin();
                     break;
                 case 5:
+                    librarySystem.save();
                     System.out.println("Existing system, bye!!!");
                     return;
                 default:
@@ -207,6 +208,8 @@ public class MenuHandler {
 
             switch (choice) {
                 case 1:
+                    handleLibrarianPassChange();
+                    break;
                 case 2:
                 case 3:
                 case 4:
@@ -220,6 +223,28 @@ public class MenuHandler {
                 default:
                     System.out.println("Invalid input!");
             }
+        }
+    }
+
+    private void handleLibrarianPassChange() {
+//        currentUser.changePassword();
+        String old_pass = getString("Enter your current password: ");
+        User oldUser = currentUser;
+
+        if (currentUser.getPassword().equals(old_pass)) {
+            String new_pass = getString("Enter new password: ");
+
+            if (currentUser.getPassword().equals(new_pass)) {
+                System.out.println("This is already your password!");
+                return;
+            } else {
+                currentUser.setPassword(new_pass);
+                librarySystem.updateLibrarian(oldUser, currentUser);
+                return;
+            }
+        } else {
+            System.out.println("Wrong password!");
+            return;
         }
     }
 
