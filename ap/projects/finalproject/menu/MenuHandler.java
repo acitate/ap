@@ -4,6 +4,7 @@ package ap.projects.finalproject.menu;
 // MenuHandler.java
 import ap.projects.finalproject.LibrarySystem;
 import ap.projects.finalproject.model.Book;
+import ap.projects.finalproject.model.Librarian;
 import ap.projects.finalproject.model.User;
 import ap.projects.finalproject.model.Student;
 
@@ -129,7 +130,7 @@ public class MenuHandler {
                     handleBookSearch();
                     break;
                 case 3:
-                    librarySystem.borrowBook((Student) currentUser);
+                    handleBookBorrow();
                     break;
                 case 4:
                     librarySystem.returnBook((Student) currentUser);
@@ -147,6 +148,20 @@ public class MenuHandler {
         }
     }
 
+    private void handleBookBorrow() {
+        System.out.println("\n--- Book Borrow ---");
+
+        String isbn = getNumericString("Enter book ISBN: ");
+
+        Book book = librarySystem.getBook(isbn);
+        if (book.isAvailable()) {
+            librarySystem.makeRequest(book, currentUser);
+            System.out.println("Successfully made the request!");
+        } else {
+            System.out.println("Book Not Available");
+        }
+    }
+
     private void handleBookSearch() {
         System.out.println("\n--- Book search ---");
         String title = getString("Enter book's title: ");
@@ -161,7 +176,7 @@ public class MenuHandler {
         }
     }
 
-    private void handleBookSearch(String quest) {
+    private void handleBookSearch(String guest) {
         System.out.println("\n--- Book search ---");
         String title = getString("Enter book's title: ");
         String author = "";
@@ -190,7 +205,7 @@ public class MenuHandler {
                     System.out.println("\n" + librarySystem.getStudentCount() + " students have registered thus far.");
                     break;
                 case 2:
-                    handleBookSearch("quest");
+                    handleBookSearch("guest");
                     break;
                 case 3:
                     System.out.println("Placeholder");
@@ -261,13 +276,18 @@ public class MenuHandler {
     private void handleBookAddition() {
         // Handles the addition of a new book by a librarian.
         System.out.println("\n--- New Book ---");
+
         String title = getString("Enter the book's title: ");
         String author = getString("Enter the name of the book's author: ");
         String date = getString("Enter the book's publication year: ");
-        String isbn = getString("Enter the book's ISBN: ");
+        String isbn = getNumericString("Enter the book's ISBN: ");
         long pages = getInt("Enter the No. pages: ");
 
+        Librarian user = ((Librarian) currentUser);
+        user.setBooksAdded(user.getBooksAdded() + 1);
+
         librarySystem.addBook(title, author, date, isbn, pages);
+        librarySystem.updateLibrarian(currentUser, user);
     }
 
     private void handleLibrarianPassChange() {

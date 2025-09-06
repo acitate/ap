@@ -13,8 +13,12 @@ public class BookManager {
     }
 
     public void addBook(String title, String author, String date, String isbn, long pages) {
-        Book newBook = new Book(title, author, date, isbn, pages);
-        books.add(newBook);
+        if (!isbnExists(isbn)) {
+            Book newBook = new Book(title, author, date, isbn, pages);
+            books.add(newBook);
+        } else {
+            System.out.println("Book already exists!");
+        }
     }
 
     public ArrayList<Book> searchBooks(String title, String author, String date) {
@@ -31,5 +35,25 @@ public class BookManager {
         }
 
         return results;
+    }
+
+    public Book getBook(String isbn) {
+        for (Book book : this.books) {
+            if (book.getIsbn().equals(isbn)) {
+                return book;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isbnExists(String isbn) {
+        for (Book book : this.books) {
+            if (book.getIsbn().equals(isbn)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

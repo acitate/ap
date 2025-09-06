@@ -3,6 +3,7 @@ package ap.projects.finalproject;
 import ap.projects.finalproject.manager.BookManager;
 import ap.projects.finalproject.manager.LibrarianManager;
 import ap.projects.finalproject.manager.StudentManager;
+import ap.projects.finalproject.manager.RequestManager;
 import ap.projects.finalproject.menu.MenuHandler;
 import ap.projects.finalproject.model.*;
 import ap.projects.finalproject.util.JsonFileHandler;
@@ -16,6 +17,7 @@ public class LibrarySystem {
     private StudentManager studentManager;
     private LibrarianManager librarianManager;
     private BookManager bookManager;
+    private RequestManager requestManager;
 
     private MenuHandler menuHandler;
     private JsonFileHandler fileHandler = new JsonFileHandler();
@@ -23,6 +25,7 @@ public class LibrarySystem {
     File students_file = new File("Students.json");
     File librarians_file = new File("Librarians.json");
     File books_file = new File("Books.json");
+    File requests_file = new File("Requests.json");
 
     public LibrarySystem() {
         this.director = new Director("Amir Sultani", "1234");
@@ -35,6 +38,9 @@ public class LibrarySystem {
 
         this.bookManager = (BookManager) fileHandler.loadFromFile(books_file, BookManager.class);
         this.bookManager = (bookManager == null)? new BookManager() : bookManager;
+
+        this.requestManager = (RequestManager) fileHandler.loadFromFile(requests_file, RequestManager.class);
+        this.requestManager = (requestManager == null)? new RequestManager() : requestManager;
 
         this.menuHandler = new MenuHandler(this);
     }
@@ -97,6 +103,7 @@ public class LibrarySystem {
         fileHandler.saveToFile(studentManager, students_file);
         fileHandler.saveToFile(librarianManager, librarians_file);
         fileHandler.saveToFile(bookManager, books_file);
+        fileHandler.saveToFile(requestManager, requests_file);
     }
 
     public void updateLibrarian(User old_librarian, User new_librarian) {
@@ -105,5 +112,13 @@ public class LibrarySystem {
 
     public void addBook(String title, String author, String date, String isbn, long pages) {
         bookManager.addBook(title, author, date, isbn, pages);
+    }
+
+    public Book getBook(String isbn) {
+        return bookManager.getBook(isbn);
+    }
+
+    public void makeRequest(Book book, User currentUser) {
+        requestManager.makeRequest(book, (Student) currentUser);
     }
 }

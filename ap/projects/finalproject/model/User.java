@@ -3,7 +3,7 @@ package ap.projects.finalproject.model;
 import static ap.projects.finalproject.util.InputHandler.getString;
 
 public class User {
-    String name, username, password;
+    protected String name, username, password;
 
     public User(String name, String username, String password) {
         this.name = name;
