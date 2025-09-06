@@ -26,4 +26,9 @@ public class Librarian extends User {
             return;
         }
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

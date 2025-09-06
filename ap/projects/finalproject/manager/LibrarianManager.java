@@ -21,7 +21,7 @@ public class LibrarianManager {
         } else {
             Librarian newLibrarain = new Librarian(name, username, password);
             librarians.add(newLibrarain);
-            System.out.println("Successful!");
+            System.out.println("Successfully added " + newLibrarain + '!');
         }
     }
 

@@ -211,6 +211,8 @@ public class MenuHandler {
                     handleLibrarianPassChange();
                     break;
                 case 2:
+                    handleBookAddition();
+                    break;
                 case 3:
                 case 4:
                 case 5:
@@ -224,6 +226,20 @@ public class MenuHandler {
                     System.out.println("Invalid input!");
             }
         }
+    }
+
+    private void handleBookAddition() {
+        // Handles the addition of a new book by a librarian.
+        System.out.println("\n--- New Book ---");
+        String title = getString("Enter the book's title: ");
+        String author = getString("Enter the name of the book's author: ");
+        String date = getString("Enter the book's publication year: ");
+        String isbn = getString("Enter the book's ISBN: ");
+        long pages = getInt("Enter the No. pages: ");
+
+        librarySystem.addBook(title, author, date, isbn, pages);
+
+
     }
 
     private void handleLibrarianPassChange() {
@@ -286,7 +302,7 @@ public class MenuHandler {
         // Handles the addition of a new librarian by the manager.
         System.out.println("\n---- New Librarian ---");
         String name = getString("Enter new librarian's name: ");
-        new Scanner(System.in).next();
+//        new Scanner(System.in).next();
         String username = getString("Enter new librarian's username: ");
         String password = getString("Enter new linrarian's password: ");
 

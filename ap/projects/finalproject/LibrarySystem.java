@@ -1,5 +1,6 @@
 package ap.projects.finalproject;
 
+import ap.projects.finalproject.manager.BookManager;
 import ap.projects.finalproject.manager.LibrarianManager;
 import ap.projects.finalproject.manager.StudentManager;
 import ap.projects.finalproject.menu.MenuHandler;
@@ -13,12 +14,17 @@ import java.io.File;
 // LibrarySystem.java
 public class LibrarySystem {
     private static Director director;
+
     private StudentManager studentManager;
     private LibrarianManager librarianManager;
+    private BookManager bookManager;
+
     private MenuHandler menuHandler;
     private JsonFileHandler fileHandler = new JsonFileHandler();
+
     File students_file = new File("Students.json");
     File librarians_file = new File("Librarians.json");
+    File books_file = new File("Books.json");
 
     public LibrarySystem() {
         this.director = new Director("Amir Sultani", "1234");
@@ -28,6 +34,9 @@ public class LibrarySystem {
 
         this.librarianManager = (LibrarianManager) fileHandler.loadFromFile(librarians_file, LibrarianManager.class);
         this.librarianManager = (librarianManager == null)? new LibrarianManager() : librarianManager;
+
+        this.bookManager = (BookManager) fileHandler.loadFromFile(books_file, BookManager.class);
+        this.bookManager = (bookManager == null)? new BookManager() : bookManager;
 
         this.menuHandler = new MenuHandler(this);
     }
@@ -90,9 +99,14 @@ public class LibrarySystem {
     public void save() {
         fileHandler.saveToFile(studentManager, students_file);
         fileHandler.saveToFile(librarianManager, librarians_file);
+        fileHandler.saveToFile(bookManager, books_file);
     }
 
     public void updateLibrarian(User old_librarian, User new_librarian) {
         librarianManager.update((Librarian) old_librarian, (Librarian) new_librarian);
+    }
+
+    public void addBook(String title, String author, String date, String isbn, long pages) {
+        bookManager.addBook(title, author, date, isbn, pages);
     }
 }

@@ -19,7 +19,7 @@ public class StudentManager {
             return;
         }
 
-        Student newStudent = new Student(name, studentId, username, password);
+        Student newStudent = new Student(name, username, password, studentId);
         students.add(newStudent);
         System.out.println("Student registration completed successfully.");
     }

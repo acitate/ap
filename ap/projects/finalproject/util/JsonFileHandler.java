@@ -48,7 +48,7 @@ public class JsonFileHandler {
 
 
 class LocalDateGson extends TypeAdapter<LocalDate> {
-    // This class help makes LocalDate a usable format for gson.
+    // This class makes LocalDate a usable format for gson.
     private static DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 
     @Override
