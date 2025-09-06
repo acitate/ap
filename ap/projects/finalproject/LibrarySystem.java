@@ -4,12 +4,10 @@ import ap.projects.finalproject.manager.BookManager;
 import ap.projects.finalproject.manager.LibrarianManager;
 import ap.projects.finalproject.manager.StudentManager;
 import ap.projects.finalproject.menu.MenuHandler;
-import ap.projects.finalproject.model.Director;
-import ap.projects.finalproject.model.Librarian;
-import ap.projects.finalproject.model.Student;
-import ap.projects.finalproject.model.User;
+import ap.projects.finalproject.model.*;
 import ap.projects.finalproject.util.JsonFileHandler;
 import java.io.File;
+import java.util.ArrayList;
 
 // LibrarySystem.java
 public class LibrarySystem {
@@ -83,9 +81,8 @@ public class LibrarySystem {
         save();
     }
 
-    public static void main(String[] args) {
-        LibrarySystem system = new LibrarySystem();
-        system.start();
+    public ArrayList<Book> searchBooks(String title, String author, String date) {
+        return bookManager.searchBooks(title, author, date);
     }
 
     public User authenticateLibrarian(String username, String password) {

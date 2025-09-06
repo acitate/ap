@@ -3,9 +3,11 @@ package ap.projects.finalproject.menu;
 
 // MenuHandler.java
 import ap.projects.finalproject.LibrarySystem;
+import ap.projects.finalproject.model.Book;
 import ap.projects.finalproject.model.User;
 import ap.projects.finalproject.model.Student;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static ap.projects.finalproject.util.InputHandler.*;
@@ -110,7 +112,7 @@ public class MenuHandler {
         while (currentUser != null) {
             System.out.println("\n=== Student Dashboard ===");
             System.out.println("1. View My Information");
-            System.out.println("2. Edit My Information");
+            System.out.println("2. Search books");
             System.out.println("3. Borrow a Book");
             System.out.println("4. Return a Book");
             System.out.println("5. View Available Books");
@@ -124,7 +126,7 @@ public class MenuHandler {
                     System.out.println(currentUser);
                     break;
                 case 2:
-                    librarySystem.editStudentInformation((Student) currentUser);
+                    handleBookSearch();
                     break;
                 case 3:
                     librarySystem.borrowBook((Student) currentUser);
@@ -142,6 +144,20 @@ public class MenuHandler {
                 default:
                     System.out.println("Invalid option! Please try again.");
             }
+        }
+    }
+
+    private void handleBookSearch() {
+        System.out.println("\n--- Book search ---");
+        String title = getString("Enter book's title: ");
+        String author = getString("Enter book's author: ");
+        String date = ((Integer) getInt("Enter book's year of publication: ", 1000, 9999)).toString();
+
+
+        ArrayList<Book> results = librarySystem.searchBooks(title, author, date);
+
+        for (Book book : results) {
+            System.out.println(book);
         }
     }
 
@@ -238,12 +254,9 @@ public class MenuHandler {
         long pages = getInt("Enter the No. pages: ");
 
         librarySystem.addBook(title, author, date, isbn, pages);
-
-
     }
 
     private void handleLibrarianPassChange() {
-//        currentUser.changePassword();
         String old_pass = getString("Enter your current password: ");
         User oldUser = currentUser;
 

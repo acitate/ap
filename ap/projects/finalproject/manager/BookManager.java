@@ -16,4 +16,20 @@ public class BookManager {
         Book newBook = new Book(title, author, date, isbn, pages);
         books.add(newBook);
     }
+
+    public ArrayList<Book> searchBooks(String title, String author, String date) {
+        ArrayList<Book> results = new ArrayList<>();
+
+        for (Book book : this.books) {
+            boolean containsTitle = !title.isEmpty() && book.getTitle().toLowerCase().contains(title.toLowerCase());
+            boolean containsAuthor = !author.isEmpty() && book.getAuthor().toLowerCase().contains(author.toLowerCase());
+            boolean containsDate = !date.isEmpty() && book.getPublicationDate().contains(date);
+
+            if (containsAuthor || containsDate || containsTitle) {
+                results.add(book);
+            }
+        }
+
+        return results;
+    }
 }

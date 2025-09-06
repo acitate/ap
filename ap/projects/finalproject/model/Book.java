@@ -64,11 +64,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "name='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", year='" + publicationDate + '\'' +
-                ", pages=" + pages +
-                '}';
+        return "======================================\nTitle: " + this.title + "  ||  author: " + this.author +
+                "  ||  Year: " + this.publicationDate + "  ||  ISBN: " + this.isbn + "  ||  IsAvailable: " + this.isAvailable;
     }
 }
