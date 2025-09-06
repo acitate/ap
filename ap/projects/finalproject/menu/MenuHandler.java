@@ -161,6 +161,20 @@ public class MenuHandler {
         }
     }
 
+    private void handleBookSearch(String quest) {
+        System.out.println("\n--- Book search ---");
+        String title = getString("Enter book's title: ");
+        String author = "";
+        String date = "";
+
+
+        ArrayList<Book> results = librarySystem.searchBooks(title, author, date);
+
+        for (Book book : results) {
+            System.out.println(book);
+        }
+    }
+
     private void displayQuestMenu() {
         while (true) {
             System.out.println("\n=== Guest ===");
@@ -176,7 +190,7 @@ public class MenuHandler {
                     System.out.println("\n" + librarySystem.getStudentCount() + " students have registered thus far.");
                     break;
                 case 2:
-                    System.out.println("Placeholder");
+                    handleBookSearch("quest");
                     break;
                 case 3:
                     System.out.println("Placeholder");
