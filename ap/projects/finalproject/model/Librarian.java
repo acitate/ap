@@ -3,7 +3,15 @@ package ap.projects.finalproject.model;
 import static ap.projects.finalproject.util.InputHandler.getString;
 
 public class Librarian extends User {
-    private int booksAdded;
+    private int booksAdded, requestsHandled;
+
+    public int getRequestsHandled() {
+        return requestsHandled;
+    }
+
+    public void setRequestsHandled(int requestsHandled) {
+        this.requestsHandled = requestsHandled;
+    }
 
     public void setBooksAdded(int booksAdded) {
         this.booksAdded = booksAdded;

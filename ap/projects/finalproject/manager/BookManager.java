@@ -1,24 +1,27 @@
 package ap.projects.finalproject.manager;
 
 import ap.projects.finalproject.model.Book;
+import ap.projects.finalproject.model.BorrowRequest;
+import ap.projects.finalproject.model.BorrowedBook;
+import ap.projects.finalproject.util.IdGen;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BookManager {
     private List<Book> books;
-//    private List<Borrowe>
+    private List<BorrowedBook>  borrowedBooks;
 
     public BookManager() {
         this.books = new ArrayList<>();
+        this.borrowedBooks = new ArrayList<>();
     }
 
     public void addBook(String title, String author, String date, String isbn, long pages) {
-        if (!isbnExists(isbn)) {
-            Book newBook = new Book(title, author, date, isbn, pages);
-            books.add(newBook);
-        } else {
-            System.out.println("Book already exists!");
-        }
+        Book newBook = new Book(title, author, date, isbn, pages);
+        books.add(newBook);
+
     }
 
     public ArrayList<Book> searchBooks(String title, String author, String date) {
@@ -47,6 +50,16 @@ public class BookManager {
         return null;
     }
 
+    public void updateBook(Book old, Book newBook) {
+        Book oldtemp = this.books.stream()
+                .filter(b -> b.equals(old))
+                .findFirst().orElse(null);
+        int index = books.indexOf(oldtemp);
+        books.remove(index);
+        newBook.setAvailable(false);
+        books.add(newBook);
+    }
+
     private boolean isbnExists(String isbn) {
         for (Book book : this.books) {
             if (book.getIsbn().equals(isbn)) {
@@ -55,5 +68,13 @@ public class BookManager {
         }
 
         return false;
+    }
+
+    public void addBorrowed(BorrowedBook borrowedBook) {
+        this.borrowedBooks.add(borrowedBook);
+    }
+
+    public List<BorrowedBook> getBorrowedBooks() {
+        return borrowedBooks;
     }
 }

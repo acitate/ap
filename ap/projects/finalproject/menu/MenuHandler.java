@@ -3,12 +3,10 @@ package ap.projects.finalproject.menu;
 
 // MenuHandler.java
 import ap.projects.finalproject.LibrarySystem;
-import ap.projects.finalproject.model.Book;
-import ap.projects.finalproject.model.Librarian;
-import ap.projects.finalproject.model.User;
-import ap.projects.finalproject.model.Student;
+import ap.projects.finalproject.model.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 
 import static ap.projects.finalproject.util.InputHandler.*;
@@ -223,7 +221,7 @@ public class MenuHandler {
         System.out.println("2. Login");
         System.out.println("3. Back");
 
-        int choice = getInt("Please enter your choice: ", 1, 4);
+        int choice = getInt("Please enter your choice: ", 1, 3);
 
         switch (choice) {
             case 1:
@@ -258,8 +256,10 @@ public class MenuHandler {
                 case 2:
                     handleBookAddition();
                     break;
-                case 3:
                 case 4:
+                    displayRequestsMenu();
+                    break;
+                case 3:
                 case 5:
                 case 6:
                     System.out.println("Placeholder");
@@ -273,6 +273,46 @@ public class MenuHandler {
         }
     }
 
+    private void displayRequestsMenu() {
+        while (true) {
+            System.out.println("\n=== Requests Menu ===");
+            System.out.println("1. Show Requests");
+            System.out.println("2. Change request status");
+            System.out.println("3. Back");
+
+            int choice = getInt("Please enter your choice: ", 1, 3);
+
+            switch (choice) {
+                case 1:
+                    for (Map.Entry req : librarySystem.getRequests().entrySet()) {
+                        System.out.println(req.getKey() + ": " + req.getValue());
+                    }
+                    break;
+
+                case 2:
+                    handleRequestStatus();
+                    break;
+                case 3:
+                    return;
+            }
+        }
+    }
+
+    private void handleRequestStatus() {
+        String ID = getNumericString("Enter request ID: ");
+
+        BorrowRequest req = librarySystem.getRequest(ID);
+        System.out.println(req.toString());
+
+        int input = getInt("Please enter request status: (0: reject, 1: confirm, 2: pending)", 0, 2);
+        req.setStatus(input);
+        librarySystem.handleRequestStatus(input, ID, req);
+        Librarian librarian = (Librarian) currentUser;
+        librarian.setRequestsHandled(librarian.getRequestsHandled() + 1);
+
+        librarySystem.updateLibrarian(currentUser, librarian);
+    }
+
     private void handleBookAddition() {
         // Handles the addition of a new book by a librarian.
         System.out.println("\n--- New Book ---");
@@ -280,13 +320,13 @@ public class MenuHandler {
         String title = getString("Enter the book's title: ");
         String author = getString("Enter the name of the book's author: ");
         String date = getString("Enter the book's publication year: ");
-        String isbn = getNumericString("Enter the book's ISBN: ");
+//        String isbn = getNumericString("Enter the book's ISBN: ");
         long pages = getInt("Enter the No. pages: ");
 
         Librarian user = ((Librarian) currentUser);
         user.setBooksAdded(user.getBooksAdded() + 1);
 
-        librarySystem.addBook(title, author, date, isbn, pages);
+        librarySystem.addBook(title, author, date, pages);
         librarySystem.updateLibrarian(currentUser, user);
     }
 

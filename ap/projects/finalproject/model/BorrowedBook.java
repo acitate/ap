@@ -20,4 +20,11 @@ public class BorrowedBook {
         this.borrowDate = LocalDate.now();
         this.dueDate = borrowDate.plusWeeks(2);
     }
+
+    public BorrowedBook(BorrowRequest borrowRequest) {
+        this.book = borrowRequest.getBook();
+        this.borrower = borrowRequest.getBorrower();
+        this.borrowDate = borrowRequest.getBorrowDate();
+        this.dueDate = borrowRequest.getToDate();
+    }
 }

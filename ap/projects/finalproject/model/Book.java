@@ -1,11 +1,13 @@
 package ap.projects.finalproject.model;
 
+import ap.projects.finalproject.util.IdGen;
+
 public class Book {
     private String title, author, publicationDate, isbn;
     private boolean isAvailable;
     private long pages;
 
-    public Book(String title, String author, String publicationDate, String isbn, long pages) {
+    public Book(String title, String author, String publicationDate, String isbn,long pages) {
         this.title = title;
         this.author = author;
         this.publicationDate = publicationDate;
@@ -66,5 +68,18 @@ public class Book {
     public String toString() {
         return "======================================\nTitle: " + this.title + "  ||  author: " + this.author +
                 "  ||  Year: " + this.publicationDate + "  ||  ISBN: " + this.isbn + "  ||  IsAvailable: " + this.isAvailable;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        Book book = (Book) obj;
+        if (this.isAvailable == book.isAvailable && this.title.equals(book.getTitle()) && this.author.equals(book.getAuthor()) &&
+        this.isbn.equals(book.getIsbn()) && this.pages == book.getPages()) {
+            return true;
+        }
+        return false;
     }
 }

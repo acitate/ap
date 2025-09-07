@@ -6,12 +6,19 @@ import ap.projects.finalproject.manager.StudentManager;
 import ap.projects.finalproject.manager.RequestManager;
 import ap.projects.finalproject.menu.MenuHandler;
 import ap.projects.finalproject.model.*;
+import ap.projects.finalproject.util.IdGen;
 import ap.projects.finalproject.util.JsonFileHandler;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // LibrarySystem.java
 public class LibrarySystem {
+    private IdGen gen = new IdGen();
+
     private static Director director;
 
     private StudentManager studentManager;
@@ -110,7 +117,8 @@ public class LibrarySystem {
         librarianManager.update((Librarian) old_librarian, (Librarian) new_librarian);
     }
 
-    public void addBook(String title, String author, String date, String isbn, long pages) {
+    public void addBook(String title, String author, String date, long pages) {
+        String isbn = gen.generateID().toString();
         bookManager.addBook(title, author, date, isbn, pages);
     }
 
@@ -119,6 +127,27 @@ public class LibrarySystem {
     }
 
     public void makeRequest(Book book, User currentUser) {
-        requestManager.makeRequest(book, (Student) currentUser);
+        String ID = gen.generateID().toString();
+        requestManager.makeRequest(book, (Student) currentUser, ID);
+    }
+
+    public HashMap<String, BorrowRequest> getRequests() {
+        return requestManager.getRequests();
+    }
+
+    public BorrowRequest getRequest(String ID) {
+        return requestManager.getRequest(ID);
+    }
+
+    public void handleRequestStatus(int input, String id, BorrowRequest req) {
+        requestManager.setRequestStatus(id, req);
+        if (input == 1) {
+
+            Book book = req.getBook();
+            bookManager.updateBook(req.getBook(), book);
+
+            BorrowedBook borrowedBook = new BorrowedBook(req);
+            bookManager.addBorrowed(borrowedBook);
+        }
     }
 }

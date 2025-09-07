@@ -35,7 +35,7 @@ public class JsonFileHandler {
     }
 
     public void saveToFile(Object manager, File file) {
-        // converts a Manager object to json and saves it to a file.
+        // converts an object to json and saves it to a file.
         try {
             FileWriter writer = new FileWriter(file);
             gson.toJson(manager, writer);
