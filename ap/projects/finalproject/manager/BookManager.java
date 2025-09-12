@@ -50,13 +50,13 @@ public class BookManager {
         return null;
     }
 
-    public void updateBook(Book old, Book newBook) {
+    public void updateBook(Book old, Book newBook, boolean isAvailable) {
         Book oldtemp = this.books.stream()
                 .filter(b -> b.equals(old))
                 .findFirst().orElse(null);
         int index = books.indexOf(oldtemp);
         books.remove(index);
-        newBook.setAvailable(false);
+        newBook.setAvailable(isAvailable);
         books.add(newBook);
     }
 
@@ -76,5 +76,9 @@ public class BookManager {
 
     public List<BorrowedBook> getBorrowedBooks() {
         return borrowedBooks;
+    }
+
+    public List<Book> getBooks() {
+        return this.books;
     }
 }

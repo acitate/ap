@@ -7,7 +7,6 @@ import ap.projects.finalproject.model.*;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Scanner;
 
 import static ap.projects.finalproject.util.InputHandler.*;
 
@@ -260,6 +259,8 @@ public class MenuHandler {
                     displayRequestsMenu();
                     break;
                 case 3:
+                    handleBookEdit();
+                    break;
                 case 5:
                 case 6:
                     System.out.println("Placeholder");
@@ -271,6 +272,26 @@ public class MenuHandler {
                     System.out.println("Invalid input!");
             }
         }
+    }
+
+    private void handleBookEdit() {
+        System.out.println("\n--- Edit book ---");
+        System.out.println(librarySystem.getBooks());
+
+        String isbn = getNumericString("Enter book ISBN: ");
+        Book book = librarySystem.getBook(isbn);
+
+        String title = getString("Enter new title(empty = no change): ");
+        String author = getString("Enter new author(empty = no change): ");
+        String date = getString("Enter new publication date(empty = no change): ");
+        String pages = getNumericString("Enter new pages(empty = no change): ");
+
+        if (!title.isEmpty()) book.setTitle(title);
+        if (!author.isEmpty()) book.setAuthor(author);
+        if (!date.isEmpty()) book.setPublicationDate(date);
+        if (!pages.isEmpty()) book.setPages(Integer.parseInt(pages));
+
+        librarySystem.updateBook(librarySystem.getBook(isbn), book, true);
     }
 
     private void displayRequestsMenu() {
@@ -306,7 +327,7 @@ public class MenuHandler {
 
         int input = getInt("Please enter request status: (0: reject, 1: confirm, 2: pending)", 0, 2);
         req.setStatus(input);
-        librarySystem.handleRequestStatus(input, ID, req);
+        librarySystem.changeRequestStatus(input, ID, req);
         Librarian librarian = (Librarian) currentUser;
         librarian.setRequestsHandled(librarian.getRequestsHandled() + 1);
 

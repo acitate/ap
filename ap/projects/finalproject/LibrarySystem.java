@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 // LibrarySystem.java
 public class LibrarySystem {
@@ -115,11 +114,13 @@ public class LibrarySystem {
 
     public void updateLibrarian(User old_librarian, User new_librarian) {
         librarianManager.update((Librarian) old_librarian, (Librarian) new_librarian);
+        save();
     }
 
     public void addBook(String title, String author, String date, long pages) {
         String isbn = gen.generateID().toString();
         bookManager.addBook(title, author, date, isbn, pages);
+        save();
     }
 
     public Book getBook(String isbn) {
@@ -129,6 +130,7 @@ public class LibrarySystem {
     public void makeRequest(Book book, User currentUser) {
         String ID = gen.generateID().toString();
         requestManager.makeRequest(book, (Student) currentUser, ID);
+        save();
     }
 
     public HashMap<String, BorrowRequest> getRequests() {
@@ -139,15 +141,23 @@ public class LibrarySystem {
         return requestManager.getRequest(ID);
     }
 
-    public void handleRequestStatus(int input, String id, BorrowRequest req) {
+    public void changeRequestStatus(int input, String id, BorrowRequest req) {
         requestManager.setRequestStatus(id, req);
         if (input == 1) {
 
             Book book = req.getBook();
-            bookManager.updateBook(req.getBook(), book);
+            updateBook(req.getBook(), book, false);
 
             BorrowedBook borrowedBook = new BorrowedBook(req);
             bookManager.addBorrowed(borrowedBook);
         }
+    }
+
+    public void updateBook(Book oldBook, Book newBook, boolean isAvailable) {
+        bookManager.updateBook(oldBook, newBook, isAvailable);
+    }
+
+    public List<Book> getBooks() {
+        return bookManager.getBooks();
     }
 }
