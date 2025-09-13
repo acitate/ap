@@ -5,6 +5,7 @@ import ap.projects.finalproject.model.BorrowRequest;
 import ap.projects.finalproject.model.BorrowedBook;
 import ap.projects.finalproject.util.IdGen;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -55,6 +56,7 @@ public class BookManager {
                 .filter(b -> b.equals(old))
                 .findFirst().orElse(null);
         int index = books.indexOf(oldtemp);
+//        System.out.println(old);
         books.remove(index);
         newBook.setAvailable(isAvailable);
         books.add(newBook);
@@ -80,5 +82,22 @@ public class BookManager {
 
     public List<Book> getBooks() {
         return this.books;
+    }
+
+    public void returnBook(BorrowedBook borrowedBook) {
+        int index = borrowedBooks.indexOf(borrowedBook);
+
+        borrowedBook.setReturnDate(LocalDate.now());
+
+        if (borrowedBook.getReturnDate().isAfter(borrowedBook.getDueDate())) {
+            borrowedBook.setLate(true);
+        }
+
+        borrowedBooks.remove(index);
+        borrowedBooks.add(borrowedBook);
+
+        Book newBook = borrowedBook.getBook();
+
+        updateBook(borrowedBook.getBook(), newBook, true);
     }
 }

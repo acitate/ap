@@ -72,10 +72,6 @@ public class LibrarySystem {
         System.out.println("Not implemented.");
     }
 
-    public void returnBook(Student student) {
-        System.out.println("Not implemented.");
-    }
-
     public void displayAvailableBooks() {
         System.out.println("Not implemented.");
     }
@@ -166,11 +162,19 @@ public class LibrarySystem {
         return studentManager.getStudents();
     }
 
+    public List<BorrowedBook> getBorrowedBooks() {
+        return bookManager.getBorrowedBooks();
+    }
+
     public void studentActivation(String username, boolean state) {
         Student student = studentManager.getStudent(username);
         student.setActive(state);
 
         studentManager.update(studentManager.getStudent(username), student);
         save();
+    }
+
+    public void returnBook(BorrowedBook borrowedBook) {
+        bookManager.returnBook(borrowedBook);
     }
 }

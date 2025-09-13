@@ -1,13 +1,12 @@
 package ap.projects.finalproject.manager;
 
-import ap.projects.finalproject.model.Librarian;
 import ap.projects.finalproject.model.Student;
 import ap.projects.finalproject.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentManager implements update{
+public class StudentManager implements Update {
     private List<Student> students;
 
     public StudentManager() {

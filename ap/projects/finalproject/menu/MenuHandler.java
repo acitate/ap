@@ -6,7 +6,9 @@ import ap.projects.finalproject.LibrarySystem;
 import ap.projects.finalproject.model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static ap.projects.finalproject.util.InputHandler.*;
 
@@ -130,7 +132,7 @@ public class MenuHandler {
                     handleBookBorrow();
                     break;
                 case 4:
-                    librarySystem.returnBook((Student) currentUser);
+                    handleBookReturn();
                     break;
                 case 5:
                     librarySystem.displayAvailableBooks();
@@ -145,12 +147,27 @@ public class MenuHandler {
         }
     }
 
+    private void handleBookReturn() {
+        List<BorrowedBook> borrowedBookList = librarySystem.getBorrowedBooks().stream()
+                .filter(b -> b.getBorrower().getStudentId().equals(((Student) currentUser).getStudentId()))
+                .toList();
+
+        borrowedBookList.forEach(b -> System.out.println(borrowedBookList.indexOf(b) + ". " + b));
+
+        int index = getInt("Enter index of book: ", 0, borrowedBookList.size() - 1);
+        if (borrowedBookList.get(index).getReturnDate() != null) {
+            System.out.println("Book has already been returned.");
+            return;
+        }
+        librarySystem.returnBook(borrowedBookList.get(index));
+    }
+
     private void handleBookBorrow() {
         if (!((Student) currentUser).isActive()) {
             System.out.println("You are not allowed to borrow!");
             return;
         }
-        
+
         System.out.println("\n--- Book Borrow ---");
 
         String isbn = getNumericString("Enter book ISBN: ");
@@ -267,7 +284,7 @@ public class MenuHandler {
                     displayRequestsMenu();
                     break;
                 case 5:
-                    System.out.println("Placeholder");
+//                    handleStudentInfo();
                     break;
                 case 6:
                     displayActivationMenu();
@@ -281,6 +298,12 @@ public class MenuHandler {
         }
     }
 
+//    private void handleStudentInfo() {
+//        librarySystem.getStudents().forEach(System.out::println);
+//
+//        String username = getString("Enter student username: ");
+//    }
+
     private void displayActivationMenu() {
         System.out.println("\n--- Student Activation ---");
         System.out.println("1. Show students");
@@ -291,7 +314,7 @@ public class MenuHandler {
 
         switch (choice) {
             case 1:
-                librarySystem.getStudents().stream().forEach(System.out::println);
+                librarySystem.getStudents().forEach(System.out::println);
                 break;
             case 2:
                 handleStudentActivation();
@@ -311,7 +334,7 @@ public class MenuHandler {
 
     private void handleBookEdit() {
         System.out.println("\n--- Edit book ---");
-        librarySystem.getBooks().stream().forEach(System.out::println);
+        librarySystem.getBooks().forEach(System.out::println);
 
         String isbn = getNumericString("Enter book ISBN: ");
         Book book = librarySystem.getBook(isbn);

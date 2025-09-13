@@ -11,6 +11,7 @@ public class BorrowedBook {
     private LocalDate borrowDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
+    private boolean isLate;
 //    LocalDate real_return_date;
 
     public BorrowedBook(Book book, Student borrower, Librarian librarian, LocalDate dueDate) {
@@ -26,5 +27,40 @@ public class BorrowedBook {
         this.borrower = borrowRequest.getBorrower();
         this.borrowDate = borrowRequest.getBorrowDate();
         this.dueDate = borrowRequest.getToDate();
+    }
+
+    public Student getBorrower() {
+        return borrower;
+    }
+
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public LocalDate getBorrowDate() {
+        return borrowDate;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
+    public void setLate(boolean late) {
+        isLate = late;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    @Override
+    public String toString() {
+        return  "dueDate=" + dueDate +
+                ", borrowDate=" + borrowDate +
+                ", book=" + book.getTitle();
     }
 }
