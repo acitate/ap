@@ -146,6 +146,11 @@ public class MenuHandler {
     }
 
     private void handleBookBorrow() {
+        if (!((Student) currentUser).isActive()) {
+            System.out.println("You are not allowed to borrow!");
+            return;
+        }
+        
         System.out.println("\n--- Book Borrow ---");
 
         String isbn = getNumericString("Enter book ISBN: ");
@@ -243,7 +248,7 @@ public class MenuHandler {
             System.out.println("3. Edit book");
             System.out.println("4. Requests");
             System.out.println("5. Student history");
-            System.out.println("6. Ban student");
+            System.out.println("6. Student activation");
             System.out.println("7. Logout");
 
             int choice = getInt("Please enter your choice: ", 1, 7);
@@ -255,15 +260,17 @@ public class MenuHandler {
                 case 2:
                     handleBookAddition();
                     break;
-                case 4:
-                    displayRequestsMenu();
-                    break;
                 case 3:
                     handleBookEdit();
                     break;
+                case 4:
+                    displayRequestsMenu();
+                    break;
                 case 5:
-                case 6:
                     System.out.println("Placeholder");
+                    break;
+                case 6:
+                    displayActivationMenu();
                     break;
                 case 7:
                     currentUser = null;
@@ -274,9 +281,37 @@ public class MenuHandler {
         }
     }
 
+    private void displayActivationMenu() {
+        System.out.println("\n--- Student Activation ---");
+        System.out.println("1. Show students");
+        System.out.println("2. Activate or deactivate student");
+        System.out.println("3. Back");
+
+        int choice = getInt("choice: ", 1, 3);
+
+        switch (choice) {
+            case 1:
+                librarySystem.getStudents().stream().forEach(System.out::println);
+                break;
+            case 2:
+                handleStudentActivation();
+                break;
+            case 3:
+                return;
+        }
+    }
+
+    private void handleStudentActivation() {
+        System.out.println();
+        String username = getString("Enter student's username: ");
+        boolean activateStatus =  (getInt("1. acitve, 0. inactive:  ", 0, 1) == 1);
+
+        librarySystem.studentActivation(username, activateStatus);
+    }
+
     private void handleBookEdit() {
         System.out.println("\n--- Edit book ---");
-        System.out.println(librarySystem.getBooks());
+        librarySystem.getBooks().stream().forEach(System.out::println);
 
         String isbn = getNumericString("Enter book ISBN: ");
         Book book = librarySystem.getBook(isbn);

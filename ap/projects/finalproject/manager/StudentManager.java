@@ -1,11 +1,13 @@
 package ap.projects.finalproject.manager;
 
+import ap.projects.finalproject.model.Librarian;
 import ap.projects.finalproject.model.Student;
+import ap.projects.finalproject.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentManager {
+public class StudentManager implements update{
     private List<Student> students;
 
     public StudentManager() {
@@ -38,6 +40,26 @@ public class StudentManager {
 
     public int getStudentCount() {
         return students.size();
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public Student getStudent(String username) {
+        for (Student student : this.students) {
+            if (student.getUsername().equals(username)) {
+                return student;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public void update(User Old, User New) {
+        students.remove((Student) Old);
+        students.add((Student) New);
     }
 
 }

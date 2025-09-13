@@ -2,11 +2,12 @@ package ap.projects.finalproject.manager;
 
 import ap.projects.finalproject.model.Librarian;
 import ap.projects.finalproject.model.Student;
+import ap.projects.finalproject.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibrarianManager {
+public class LibrarianManager implements update {
     private List<Librarian> librarians;
 
     public LibrarianManager() {
@@ -32,11 +33,11 @@ public class LibrarianManager {
                 .findFirst()
                 .orElse(null);
     }
-
-    public void update(Librarian old_librarian, Librarian new_librarian) {
+    @Override
+    public void update(User Old, User New) {
 //        librarians.indexOf(old_librarian);
-        librarians.remove(old_librarian);
-        librarians.add(new_librarian);
+        librarians.remove((Librarian) Old);
+        librarians.add((Librarian) New);
     }
 
     private boolean isUsernameTaken(String username) {

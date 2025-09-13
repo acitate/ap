@@ -155,9 +155,22 @@ public class LibrarySystem {
 
     public void updateBook(Book oldBook, Book newBook, boolean isAvailable) {
         bookManager.updateBook(oldBook, newBook, isAvailable);
+        save();
     }
 
     public List<Book> getBooks() {
         return bookManager.getBooks();
+    }
+
+    public List<Student> getStudents() {
+        return studentManager.getStudents();
+    }
+
+    public void studentActivation(String username, boolean state) {
+        Student student = studentManager.getStudent(username);
+        student.setActive(state);
+
+        studentManager.update(studentManager.getStudent(username), student);
+        save();
     }
 }
